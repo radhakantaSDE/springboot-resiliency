@@ -1,0 +1,22 @@
+management:
+  spring:
+    application:
+      name: springboot-resiliency
+  endpoint:
+    health:
+      show-details: ALWAYS
+  health:
+    ratelimiters:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+#resilience4j:
+#  ratelimiter:
+#    instances:
+#      employeeDetails:
+#        limit-for-period: 2
+#        limit-refresh-period: 15s
+#        timeout-duration: 10s
+#        register-health-indicator: true
