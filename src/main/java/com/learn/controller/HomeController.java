@@ -11,10 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/home-service/v1")
 public class HomeController {
 
-    @GetMapping("employee")
-    @RateLimiter(name = "employeeDetails")
-    public ResponseEntity<EmployeeDto> employeeDetails() {
+  @GetMapping("employee")
+  @RateLimiter(name = "employeeDetails")
+  public ResponseEntity<EmployeeDto> employeeDetails() {
 
-        return ResponseEntity.ok(EmployeeDto.builder().id("100ER20").name("Rajesh").salary(4000.0f).build());
-    }
+    return ResponseEntity.ok(
+        EmployeeDto.builder().id("100ER20").name("Rajesh").salary(4000.0f).build());
+  }
 }

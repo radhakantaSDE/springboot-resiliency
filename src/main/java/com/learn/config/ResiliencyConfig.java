@@ -14,28 +14,35 @@ import java.time.Duration;
 @Slf4j
 public class ResiliencyConfig implements BeanPostProcessor {
 
-    @Autowired
-    private RateLimiterRegistry rateLimiterRegistry;
+  @Autowired private RateLimiterRegistry rateLimiterRegistry;
 
-    @Override
-    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        return BeanPostProcessor.super.postProcessBeforeInitialization(bean, beanName);
-    }
+  @Override
+  public Object postProcessBeforeInitialization(Object bean, String beanName)
+      throws BeansException {
+    return BeanPostProcessor.super.postProcessBeforeInitialization(bean, beanName);
+  }
 
-    @Override
-    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+  @Override
+  public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
 
-        // Fetch api methods
-        RateLimiterConfig customConfig = RateLimiterConfig.custom()
-                .limitForPeriod(2)
-                .limitRefreshPeriod(Duration.ofSeconds(15))
-                .timeoutDuration(Duration.ofSeconds(10))
-                .build();
+    // Fetch api methods
+    RateLimiterConfig customConfig =
+        RateLimiterConfig.custom()
+            .limitForPeriod(2)
+            .limitRefreshPeriod(Duration.ofSeconds(15))
+            .timeoutDuration(Duration.ofSeconds(10))
+            .build();
 
-        rateLimiterRegistry.rateLimiter("employeeDetails", customConfig)
-                .getEventPublisher()
-                .onFailure(event -> log.error("Rate limiter failure: RL name {} RL event Type : {}", event.getRateLimiterName(), event.getEventType()));
+    rateLimiterRegistry
+        .rateLimiter("employeeDetails", customConfig)
+        .getEventPublisher()
+        .onFailure(
+            event ->
+                log.error(
+                    "Rate limiter failure: RL name {} RL event Type : {}",
+                    event.getRateLimiterName(),
+                    event.getEventType()));
 
-        return BeanPostProcessor.super.postProcessAfterInitialization(bean, beanName);
-    }
+    return BeanPostProcessor.super.postProcessAfterInitialization(bean, beanName);
+  }
 }
