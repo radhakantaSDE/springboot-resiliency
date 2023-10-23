@@ -27,7 +27,7 @@ public class ResiliencyConfig implements BeanPostProcessor {
 
         // Fetch api methods
         RateLimiterConfig customConfig = RateLimiterConfig.custom()
-                .limitForPeriod(1)
+                .limitForPeriod(2)
                 .limitRefreshPeriod(Duration.ofSeconds(15))
                 .timeoutDuration(Duration.ofSeconds(10))
                 .build();
