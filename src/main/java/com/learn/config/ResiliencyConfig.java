@@ -32,9 +32,9 @@ public class ResiliencyConfig implements BeanPostProcessor {
                 .timeoutDuration(Duration.ofSeconds(10))
                 .build();
 
-
         rateLimiterRegistry.rateLimiter("employeeDetails", customConfig)
-                .getEventPublisher().onFailure(event -> log.error("Rate limiter failure: RL name {} RL event Type : {}", event.getRateLimiterName(), event.getEventType()));
+                .getEventPublisher()
+                .onFailure(event -> log.error("Rate limiter failure: RL name {} RL event Type : {}", event.getRateLimiterName(), event.getEventType()));
 
         return BeanPostProcessor.super.postProcessAfterInitialization(bean, beanName);
     }
